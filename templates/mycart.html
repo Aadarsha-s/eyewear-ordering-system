@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %} My cart{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+           <hr>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Product</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cp in cart.cartproduct_set.all %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{cp.product.title}}</td>
+                        <td>{{cp.rate}}</td>
+                        <td>{{cp.quantity}}</td>
+                        <td>{{cp.subtotal}}</td>
+                        <td>
+                            <a href="{% url 'ecomapp:managecart' cp.id %}?action=inc" class="btn btn-primary btn-sm"> + </a>
+                            <a href="{% url 'ecomapp:managecart' cp.id %}?action=dcr" class="btn btn-warning btn-sm"> - </a>
+                            <a href="{% url 'ecomapp:managecart' cp.id %}?action=rmv" class="btn btn-danger btn-sm"> x </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <th colspan="4" class="text-right">Total</th>
+                        <th>Rs. {{cart.total}}</th>
+                        {% if cart.cartproduct_set.all %}
+                        <th>Empty Cart<a href="{% url 'ecomapp:emptycart' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="red" class="bi bi-x-square-fill" viewBox="0 0 16 16">
+                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/>
+                              </svg>
+                        </a></th>
+                        {% endif %}
+                    </tr>
+                    {% if cart.cartproduct_set.all %}
+                    <tr>
+                        <th><a class="btn btn-info" href="{% url 'ecomapp:checkout' %}"> Checkout </a></th>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

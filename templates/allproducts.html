@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} All Products {% endblock %}
+
+{% block content %}
+<div class="container">
+    <br>
+    {% for cat in allcategories %}
+    <br>
+    <hr>
+    <center><h5 style = "color: #f57d04 ">{{cat.title}}</h5></center>
+    <hr>
+    <div class="row">
+        {% for p in cat.product_set.all %}
+        <div class="col-md-3 card">
+            <div class="mt-1">
+                <a href="{% url 'ecomapp:productdetail' p.slug %}" class="text-dark text-decoration-none">
+                <img src="{{p.image.url}}" alt="" class="img-fluid" style="height: 2500; object-fit: cover;">
+                <p>
+                    <h6>{{p.title}}</h6>
+                    <h6 style="color: #f57d04;">Rs. {{p.selling_price}}</h6>
+                    <strike><h6 style="color: orange;"> Rs. {{p.marked_price}}</h6></strike>
+                </p>
+            </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

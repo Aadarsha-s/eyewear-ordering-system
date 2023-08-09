@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<img class = "image-slider" src="/static/images/slider-bg.jpg">
+<div class="container">
+
+    <hr>
+    <h3><center>Featured Products</center></h3>
+    <hr>
+    <div class="row mt-3">
+        {% for p in product_list %}
+        <div class="col-md-4 card">
+            <div class="m-1">
+                <a href="{% url 'ecomapp:productdetail' p.slug %}" class="text-dark text-decoration-none">
+                <img src="{{p.image.url}}" alt="" class="img-fluid" style="height: 200px; object-fit: contain;">
+                <h6>{{p.title}}</h6>
+                <p>
+                    <h6 style="color: #f57d04;">Rs. {{p.selling_price}}</h6>
+                    <strike><h6 style="color : orange; "> Rs. {{p.marked_price}}</h6></strike>
+                </p>
+                {% comment %} <a href="{% url 'ecomapp:addtocart' p.id %}" class="btn btn-primary">Add To Cart</a> {% endcomment %}
+            </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% comment %} <nav aria-label="...">
+        <ul class="pagination">
+            {% if product_list.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ product_list.previous_page_number }}">Previous</a>
+              </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            {% endif %}
+
+            {% for i in product_list.paginator.page_range %}
+            {% if i == product_list.number %}
+            <li class="page-item active"><a class="page-link">{{i}}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if product_list.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ product_list.next_page_number }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+      </nav> {% endcomment %}
+
+</div>
+<br>
+<section class="container-fluid footer_section">
+    <p>
+      Copyright &copy; <span id="displayYear">2023.</span> All Rights Reserved By Eyewear pasal
+    </p>
+  </section>
+  
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{{product.title}}{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% comment %} <h3>Product: {{product.title prod}}</h3> {% endcomment %}
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{product.image.url}}" alt="" class="img-fluid">
+            <div class="row">
+                {% for pi in product.productimage_set.all %}
+                <div class="col-md-4 p-3">
+                    <a href="{{pi.image.url}}" target="_blank">
+                        <img src="{{pi.image.url}}" class="img-fluid" style="height: 100px; object-fit: contain;" alt="">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h4>{{product.title}}</h4>
+            
+            <p>
+                <h5 style="color:  #f57d04;">Rs. {{product.selling_price}}</h5>
+                <strike><h6 style="color: orange;"> Rs. {{product.marked_price}}</h6></strike>
+            </p>
+
+            <a href="{% url 'ecomapp:addtocart' product.id %}" class="btn btn-info">Add To Cart</a>
+            <button id="try-now" class="btn btn-danger">Try Now</button>
+            <script>
+                document.getElementById('try-now').addEventListener('click', function() {
+                var newWindow = window.open('/run', '_self');
+                    newWindow.focus();
+                });
+            </script>
+            <hr>
+         
+            <p class="text-info">Warranty: {{product.warranty}}</p>
+            <p class="text-info">Return Policy:{{product.return_policy}}</p>
+            <hr>
+            <p>{{product.description}}</p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
